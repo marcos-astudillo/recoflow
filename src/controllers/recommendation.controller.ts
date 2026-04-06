@@ -1,5 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { recommendationQuerySchema } from "../models/recommendation.model";
+import { getRecommendationsService } from "../services/recommendation.service";
+
 
 export const getRecommendations = async (
   request: FastifyRequest,
@@ -13,8 +15,7 @@ export const getRecommendations = async (
 
   const { user_id, limit, context } = parsed.data;
 
-  // TODO: conectar con service
-  return {
-    items: [],
-  };
+  const result = await getRecommendationsService(user_id, limit, context);
+
+  return result;
 };
