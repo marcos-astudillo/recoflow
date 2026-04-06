@@ -1,6 +1,6 @@
-import redis from "../infrastructure/redis.client";
 import { generateCandidates } from "./candidate.service";
 import { rankItems } from "./ranking.service";
+import redis from "../infrastructure/redis.client";
 
 const CACHE_TTL = 60; // seconds
 
@@ -11,28 +11,26 @@ export const getRecommendationsService = async (
 ) => {
   const cacheKey = `recs:${userId}:${context || "default"}`;
 
-  // 1. CACHE
-  const cached = await redis.get(cacheKey);
-  if (cached) {
-    return JSON.parse(cached);
+  if (process.env.CACHE_ENABLED === "true") {
+    const cached = await redis.get(cacheKey);
+    if (cached) return JSON.parse(cached);
   }
 
   try {
-    // 2. Candidate generation
     const candidates = await generateCandidates(userId);
-
-    // 3. Ranking
-    const ranked = await rankItems(candidates, limit);
-
+    const ranked = await rankItems(candidates, userId, limit);
     const response = { items: ranked };
 
-    // 4. Save cache
-    await redis.set(cacheKey, JSON.stringify(response), "EX", CACHE_TTL);
+    if (process.env.CACHE_ENABLED === "true") {
+      await redis.set(cacheKey, JSON.stringify(response), "EX", CACHE_TTL);
+    }
 
     return response;
   } catch (error) {
-    // 5. Fallback
-    return fallbackRecommendations(limit);
+    if (process.env.FALLBACK_ENABLED === "true") {
+      return fallbackRecommendations(limit);
+    }
+    throw error;
   }
 };
 
