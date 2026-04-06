@@ -1,5 +1,8 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { eventSchema } from "../models/event.model";
+import { incrementItemPopularity } from "../repositories/itemFeature.repository";
+import { incrementUserInteraction } from "../repositories/userFeature.repository";
+import { insertEvent } from "../repositories/event.repository";
 
 export const postEvent = async (
   request: FastifyRequest,
@@ -13,6 +16,10 @@ export const postEvent = async (
 
   const event = parsed.data;
 
-  // TODO: enviar a event pipeline
+  await insertEvent(event);
+
+  await incrementUserInteraction(event.user_id);
+  await incrementItemPopularity(event.item_id);
+
   return reply.status(202).send({ status: "accepted" });
 };
