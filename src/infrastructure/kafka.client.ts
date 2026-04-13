@@ -2,7 +2,8 @@ import { Kafka } from "kafkajs";
 
 const kafka = new Kafka({
   clientId: "recoflow-app",
-  brokers: [process.env.KAFKA_BROKER || "localhost:9092"],
+  // Supports comma-separated broker list, e.g. "kafka:29092" (Docker) or "localhost:9092" (local)
+  brokers: (process.env.KAFKA_BROKERS || "localhost:9092").split(","),
 });
 
 export const producer = kafka.producer();
