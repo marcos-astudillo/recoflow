@@ -1,8 +1,5 @@
 # Recoflow
 
-> A production-grade **Recommendation System** built with Node.js, TypeScript, and Fastify.
-> Implements a two-stage candidate generation + ML ranking pipeline, real-time event streaming via Kafka, Redis response caching, graceful fallback, rate limiting, and full observability.
-
 [![CI](https://github.com/marcos-astudillo/recoflow/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/marcos-astudillo/recoflow/actions)
 ![Node.js](https://img.shields.io/badge/Runtime-Node.js%2020-339933?logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -14,6 +11,10 @@
 ![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
 ![Vitest](https://img.shields.io/badge/Testing-Vitest-646CFF)
 ![License](https://img.shields.io/github/license/marcos-astudillo/recoflow?color=blue)
+
+
+> A production-grade **Recommendation System** built with Node.js, TypeScript, and Fastify.
+> Implements a two-stage candidate generation + ML ranking pipeline, real-time event streaming via Kafka, Redis response caching, graceful fallback, rate limiting, and full observability.
 
 ---
 
